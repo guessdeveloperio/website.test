@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Homepage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Fullscreen Video Container -->
+    <div id="video-container">
+        <video id="bg-video" autoplay muted loop>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- Banner with Play Button -->
+        <div id="banner">
+            <a href="game/index.html">
+                <img src="play-button.png" alt="Play Now" id="play-button">
+            </a>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="background-music" autoplay loop>
+        <source src="background.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- JavaScript to Ensure Autoplay -->
+    <script>
+        const music = document.getElementById('background-music');
+        window.addEventListener('DOMContentLoaded', () => {
+            music.play().catch(() => {
+                console.log("Autoplay blocked. Waiting for user interaction.");
+            });
+        });
+
+        // Play music on user click (in case autoplay fails)
+        document.addEventListener('click', () => {
+            music.play();
+        }, { once: true });
+    </script>
+</body>
+</html>
+

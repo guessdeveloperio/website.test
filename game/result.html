@@ -1,0 +1,58 @@
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2ZWxvcGVybWFwc3Rlc3QiLCJhIjoiY200cmkxdDY0MDVhZDJpc2V1ZWRsbmE0eCJ9.ZeJtn0qumV8gNDXa50E2GA';
+
+  // Get stored guess coordinates
+  const guessCoords = JSON.parse(localStorage.getItem('guess'));
+  const actualCoords = [10.267, 15.633]; // Replace with actual coordinates
+
+  // Initialize the globe map
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12', // Ensure this style supports globe
+    projection: 'globe', // Enable globe projection
+    center: actualCoords,
+    zoom: 2,
+  });
+
+  // Add fog for atmosphere effect
+  map.on('style.load', () => {
+    // Setting the fog for the globe
+    map.setFog({
+      color: 'rgba(186, 210, 235, 1)', // Atmosphere color
+      highColor: 'rgba(36, 92, 223, 0.2)', // High atmosphere color
+      horizonBlend: 0.5, // Horizon blend intensity
+      spaceColor: 'rgba(11, 11, 25, 1)', // Space color (background stars)
+      starIntensity: 1.0, // Star intensity
+    });
+  });
+
+  // Add markers for actual and guessed locations
+  new mapboxgl.Marker({ color: 'red' }).setLngLat(actualCoords).addTo(map);
+  new mapboxgl.Marker({ color: 'blue' }).setLngLat(guessCoords).addTo(map);
+
+  // Draw a line between the two points
+  map.on('load', () => {
+    map.addSource('line', {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [guessCoords, actualCoords],
+        },
+      },
+    });
+
+    map.addLayer({
+      id: 'line-layer',
+      type: 'line',
+      source: 'line',
+      layout: {},
+      paint: { 'line-color': '#ff0000', 'line-width': 4 },
+    });
+
+    // Calculate and display distance
+    const distance = turf.distance(guessCoords, actualCoords, { units: 'kilometers' });
+    document.getElementById('distance-text').innerText = `You were ${distance.toFixed(2)} km away!`;
+  });
+</script>

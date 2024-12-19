@@ -1,0 +1,54 @@
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent scrollbars */
+}
+
+/* Fullscreen video container */
+#video-container {
+    position: relative;
+    width: 100vw; /* 100% of the viewport width */
+    height: 100vh; /* 100% of the viewport height */
+    overflow: hidden;
+}
+
+/* Adjust the video to maintain aspect ratio while fitting the screen */
+#bg-video {
+    width: 103%;
+    height: 100%;
+    object-fit: contain; /* Ensure the video fits the screen without cropping */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Banner and Play Now Button */
+#banner {
+    position: absolute;
+    top: 4px; /* Adjust banner positioning */
+    right: 15px;
+    z-index: 2; /* Ensure the button stays on top */
+}
+
+#play-button {
+    width: 210px; /* Adjust size of Play button */
+    height: auto; /* Maintain aspect ratio */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+#play-button:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Background music */
+audio {
+    display: none; /* Hide the audio player */
+}
